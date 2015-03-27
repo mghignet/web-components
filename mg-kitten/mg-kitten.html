@@ -1,0 +1,35 @@
+<template id="mg-kitten">
+    <img id="kitten-img" />
+</template>
+
+<script>
+
+    (function () {
+        
+        var mgKitten = Object.create(HTMLElement.prototype);
+
+        var importedDoc = document.currentScript.ownerDocument,
+            templateDocument = importedDoc.querySelector('#mg-kitten').content;
+
+        mgKitten.createdCallback = function () {
+            var self = this,
+                shadowRoot = self.createShadowRoot();
+
+            //Let the size be 500px by default
+            var width = self.getAttribute('width') || '500';
+            var height = self.getAttribute('height') || '500';
+
+            templateDocument.querySelector('#kitten-img')
+                .setAttribute('src', 'http://placekitten.com/g/' + width + '/' + '/' + height);
+
+            shadowRoot.appendChild(templateDocument.cloneNode(true));
+
+        };
+
+        document.registerElement('mg-kitten', {
+            prototype: mgKitten
+        });
+
+    }());
+
+</script>
